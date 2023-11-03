@@ -105,5 +105,10 @@ public class Veiculo {
 			tanqueAtual -= rota.getQuilometragem()*CONSUMO;
 		}
 	}
-	
+
+	//Método somente para teste
+	public String getPlaca() {
+		return placa;
+	}
 }
+	
