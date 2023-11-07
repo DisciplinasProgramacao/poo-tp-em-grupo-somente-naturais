@@ -5,18 +5,17 @@ public class Frota {
     //#region Método constutor
     /**
      *  Método constutor no qual o tamanhoFrota determina o tamanho de vetor para os dados dos veículos
-     * @param tamanhoFrota
      */
     //#endregion
-    public Frota(int tamanhoFrota)
+    public Frota(Veiculo[] veiculos)
     {
-        this.tamanhoFrota = tamanhoFrota;
-        Veiculos = new Veiculo[tamanhoFrota];
+        this.Veiculos = veiculos;
+        tamanhoFrota = veiculos.length;
     }
 
     //#region
     /**
-     * Método para exibir o relatório da forta co seus kilomêtros rodados 
+     * Método para exibir o relatório da forta co seus kilomêtros rodados
      * tanto no mês quanto no total
      * @return relatorioFrota
      */
@@ -26,13 +25,13 @@ public class Frota {
     {
         StringBuilder relatorioFrota = new StringBuilder();
 
-        relatorioFrota.append("----- Relatório da Frota -----");
+        relatorioFrota.append("----- Relatório da Frota -----\n");
 
-        for(int i = 0; i <= tamanhoFrota; i ++)
+        for(int i = 0; i < tamanhoFrota; i ++)
         {
-            relatorioFrota.append("Quanto precisa abastercer : "+Veiculos[i].abastecer(i));
-           relatorioFrota.append("Kilometragem no mês "+ Veiculos[i].KmnoMes());
-           relatorioFrota.append("Kilometragem no ano " + Veiculos[i].KmTotal());
+            relatorioFrota.append("Quanto precisa abastecer : " + Veiculos[i].abastecer(i) + "\n");
+            relatorioFrota.append("Kilometragem no mês "+ Veiculos[i].KmnoMes() + "\n");
+            relatorioFrota.append("Kilometragem no ano " + Veiculos[i].KmTotal() + "\n");
         }
 
         return relatorioFrota.toString();
@@ -42,7 +41,7 @@ public class Frota {
     /*
      * Método para localizar um Veiculo na frota pela sua placa
      * e retornar o veículo desejado
-     * @param placa 
+     * @param placa
      * @return Veiculos[i]
      */
     public Veiculo localizadorVeiculo(String placa) {
@@ -52,67 +51,67 @@ public class Frota {
                 return Veiculos[i]; // Retorna o veículo quando a placa é encontrada
             }
         }
-    
+
         return null; // Retorna null se a placa não for encontrada na frota
     }
 
-  //#region
-  /*
-   * Método para calcular a quilometragem total de todos os
-   * veículos da Frota da empresa
-   * @return quilometragemtotal
-   */
-  //#endregion
+    //#region
+    /*
+     * Método para calcular a quilometragem total de todos os
+     * veículos da Frota da empresa
+     * @return quilometragemtotal
+     */
+    //#endregion
 
-  public double quilometragemtotal()
-  {
-    double quilometragemtotal = 0;
-    for(int i = 0; i < tamanhoFrota; i ++)
+    public double quilometragemtotal()
     {
-        quilometragemtotal = quilometragemtotal + Veiculos[i].KmTotal();
-    }
-    return quilometragemtotal;
-}
-
-//#region
-/*
- * Método no qual seu objetivo e procurar o Veículo com maior quilometragem total
- * @return Veiculo maior
- */
-//#endregion
-  public Veiculo maiorkmtotal()
-  {
-    Veiculo maior = Veiculos[0];
-
-    for(int i = 1; i < tamanhoFrota; i ++)
-    {
-        if(maior.KmTotal() < Veiculos[i].KmTotal())
+        double quilometragemtotal = 0;
+        for(int i = 0; i < tamanhoFrota; i ++)
         {
-            maior = Veiculos[i];
+            quilometragemtotal = quilometragemtotal + Veiculos[i].KmTotal();
         }
+        return quilometragemtotal;
     }
 
-    return maior;
-  }
+    //#region
+    /*
+     * Método no qual seu objetivo e procurar o Veículo com maior quilometragem total
+     * @return Veiculo maior
+     */
+    //#endregion
+    public Veiculo maiorkmtotal()
+    {
+        Veiculo maior = Veiculos[0];
 
-  //#region
-  /*
-   * Método para procurar a maior quilometragem média
-   * de um veículo que está na frota
-   * @return Mediamaior
-   */
-  //#endregion
-  public Veiculo maiorkmMedia()
-  {
-      Veiculo Mediamaior = Veiculos[0];
-
-      for(int i = 1; i < tamanhoFrota; i ++)
-      {
-        if(Mediamaior.KmTotal() <  Veiculos[i].KmTotal())
+        for(int i = 1; i < tamanhoFrota; i ++)
         {
-            Mediamaior = Veiculos[i];
+            if(maior.KmTotal() < Veiculos[i].KmTotal())
+            {
+                maior = Veiculos[i];
+            }
         }
-      }
-      return Mediamaior;
-  }
+
+        return maior;
+    }
+
+    //#region
+    /*
+     * Método para procurar a maior quilometragem média
+     * de um veículo que está na frota
+     * @return Mediamaior
+     */
+    //#endregion
+    public Veiculo maiorkmMedia()
+    {
+        Veiculo Mediamaior = Veiculos[0];
+
+        for(int i = 1; i < tamanhoFrota; i ++)
+        {
+            if((Mediamaior.KmTotal() / Mediamaior.getQuantRotas()) < (Veiculos[i].KmTotal() / Veiculos[i].getQuantRotas()))
+            {
+                Mediamaior = Veiculos[i];
+            }
+        }
+        return Mediamaior;
+    }
 }

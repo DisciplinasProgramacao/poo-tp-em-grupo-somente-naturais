@@ -1,5 +1,4 @@
-public class Tanque
-{
+public class Tanque {
     private static final double consumo = 8.2;
     private double capacidademax;
     private double capacidadeAtual;
@@ -15,7 +14,7 @@ public class Tanque
         if (litros<0) {
             System.out.println("Quantidade de litros indisponível");
         }
-        else if (litros+capacidadeAtual > capacidademax) 
+        else if (litros+capacidadeAtual > capacidademax)
         {
             System.out.println("A quantidade de litros excede a capacidade máxima do tanque\nSendo assim o tanque foi completado e foram desperdiçados um total de: "+ (litros+capacidadeAtual-capacidademax) +" litros de combustível");
             capacidadeAtual = capacidademax;
@@ -23,6 +22,7 @@ public class Tanque
         else
         {
             capacidadeAtual+=litros;
+            System.out.println("Tanque abastecido.");
         }
 
         return capacidadeAtual;
@@ -37,5 +37,4 @@ public class Tanque
     {
         return capacidadeAtual * consumo;
     }
-
 }

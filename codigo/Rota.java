@@ -1,10 +1,9 @@
-//importando a biblioteca para o uso de datas na classe
 import java.util.Date;
-public class Rota {
 
+public class Rota {
     // Atributos privados para garantir o encapsulamento
-    private Date data; 
-    private double quilometragem; 
+    private Date data;
+    private double quilometragem;
 
     // Construtor para inicializar os atributos da classe
     public Rota(Date data, double quilometragem) {
@@ -15,6 +14,10 @@ public class Rota {
     // Método getter para acessar a data da rota
     public Date getData() {
         return data;
+    }
+
+    public int getMonth() {
+        return this.data.getMonth();
     }
 
     // Método setter para modificar a data da rota
@@ -35,18 +38,18 @@ public class Rota {
 
     // Método para gerar um relatório detalhado da rota
 
-        public String Relatorio() {
-            StringBuilder relatorio = new StringBuilder();
-    
-            relatorio.append("----- Relatório da Rota -----\n");
-            
-            relatorio.append("Data da Rota: ").append(data.toString()).append("\n");
-            
-            relatorio.append("Quilometragem: ").append(quilometragem).append(" km\n");
-            
-            relatorio.append("----------------------------\n");
-            
-            return relatorio.toString();
+    public String Relatorio() {
+        StringBuilder relatorio = new StringBuilder();
 
-        }
+        relatorio.append("----- Relatório da Rota -----\n");
+
+        relatorio.append("Data da Rota: ").append(data.toString()).append("\n");
+
+        relatorio.append("Quilometragem: ").append(quilometragem).append(" km\n");
+
+        relatorio.append("----------------------------\n");
+
+        return relatorio.toString();
+
     }
+}
