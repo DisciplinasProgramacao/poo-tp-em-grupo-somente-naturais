@@ -5,17 +5,26 @@ public class Van implements ItipoVeiculo {
     public Van(){
         descricao = "Van";
     }
-
+    
     @Override
-    public boolean manutencaoPeriodica() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'manutencaoPeriodica'");
+    public boolean manutencaoPeriodica(Rota rota) {
+        if(rota.getQuilometragem() >= 10000){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     @Override
-    public boolean manutencaoTrocaPecas() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'manutencaoTrocaPecas'");
+    public boolean manutencaoTrocaPecas(Rota rota) {
+       if(rota.getQuilometragem() >= 12000)
+       {
+        return true;
+       }
+       else{
+        return false;
+       }
     }
     
 }

@@ -3,13 +3,14 @@ public enum ITipoCombustivel {
      * valores dos combustíveis
      * presentes no sistema
      */
-    ALCOOL(7.329),
-    GASOLINA(10.519),
-    DIESEL(4.609);
+    ALCOOL(3.29, 7.00),
+    GASOLINA(5.19, 10.00),
+    DIESEL(6.09,4.00);
 
     /*
      * atributo final para que não tenha alterações
      */
+    private final double Consumo_medio;
     private final double valor;
 
     /*
@@ -17,13 +18,19 @@ public enum ITipoCombustivel {
      * @param valor da gasolina, alcool e diesel
      * pega somente os valores necessários
      */
-    private ITipoCombustivel(double valor){
+    private ITipoCombustivel(double valor, double Consumo_medio){
+        this.Consumo_medio = Consumo_medio;
         this.valor = valor;
+
     }
 
     /*
      * método get para pegar os valores de alcool, gasolina e diesel
      */
+    public double getConsumoMedio(){
+        return Consumo_medio;
+    }
+
     public double getValor(){
         return valor;
     }

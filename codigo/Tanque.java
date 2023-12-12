@@ -4,6 +4,7 @@ public class Tanque {
     private double capacidadeAtual;
     private ITipoCombustivel tipoCombustivel;
 
+    
     public Tanque(double capacidademax, double capcacidadeAtual)
     {
         this.capacidademax = capacidademax;

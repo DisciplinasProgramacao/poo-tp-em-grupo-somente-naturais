@@ -11,7 +11,7 @@ public interface ItipoVeiculo {
       * deve ou não fazer a sua manutenção periódica
       @return boolean
       */
-    public boolean manutencaoPeriodica();
+    public boolean manutencaoPeriodica(Rota rota);
 
     /*
      * Método público do tipo boolan que retorna se o veículo
@@ -19,6 +19,6 @@ public interface ItipoVeiculo {
      * @return boolean
      */
 
-    public boolean manutencaoTrocaPecas();
+    public boolean manutencaoTrocaPecas(Rota rota);
     
 }
