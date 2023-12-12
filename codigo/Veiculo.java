@@ -1,6 +1,8 @@
 import java.util.Date;
 
 public class Veiculo {
+
+    private ItipoVeiculo TipoVeiculo;
     private final  int MAX_ROTAS = 3;
     private final  double CONSUMO = 1.5;
     private String placa;
@@ -126,4 +128,5 @@ public class Veiculo {
     public int getQuantRotas() {
         return quantRotas;
     }
+   
 }

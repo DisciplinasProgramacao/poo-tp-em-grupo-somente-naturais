@@ -2,6 +2,7 @@ public class Tanque {
     private static final double consumo = 8.2;
     private double capacidademax;
     private double capacidadeAtual;
+    private ITipoCombustivel tipoCombustivel;
 
     public Tanque(double capacidademax, double capcacidadeAtual)
     {
