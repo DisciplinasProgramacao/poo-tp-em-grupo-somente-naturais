@@ -11,6 +11,7 @@ public class Frota {
     {
         this.Veiculos = veiculos;
         tamanhoFrota = veiculos.length;
+        
     }
 
     //#region
@@ -21,21 +22,20 @@ public class Frota {
      */
     //#endregion
 
-    public String relatorioFrota ()
-    {
+     public String relatorioFrota () throws Exception
+     {
         StringBuilder relatorioFrota = new StringBuilder();
 
         relatorioFrota.append("----- Relatório da Frota -----\n");
 
         for(int i = 0; i < tamanhoFrota; i ++)
         {
-            relatorioFrota.append("Quanto precisa abastecer : " + Veiculos[i].abastecer(i) + "\n");
-            relatorioFrota.append("Kilometragem no mês "+ Veiculos[i].KmnoMes() + "\n");
-            relatorioFrota.append("Kilometragem no ano " + Veiculos[i].KmTotal() + "\n");
-        }
+           relatorioFrota.append("Kilometragem no mês "+ Veiculos[i].relatorio() + "\n");
+            //relatorioFrota.append("Kilometragem no ano " + Veiculos[i].getKmtotal() + "\n");
+       }
 
-        return relatorioFrota.toString();
-    }
+      return relatorioFrota.toString();
+     }
 
     //#region
     /*
@@ -44,15 +44,42 @@ public class Frota {
      * @param placa
      * @return Veiculos[i]
      */
-    public Veiculo localizadorVeiculo(String placa) {
+    //  public Veiculo localizadorVeiculo(String placa) throws Exception {
 
-        for (int i = 0; i < tamanhoFrota; i++) {
-            if (Veiculos[i].getPlaca().equals(placa)) {
-                return Veiculos[i]; // Retorna o veículo quando a placa é encontrada
+    //    for (int i = 0; i < tamanhoFrota; i++) {
+    //        if (Veiculos[i].getPlaca().equals(placa)) {
+    //             return Veiculos[i]; // Retorna o veículo quando a placa é encontrada
+    //        }
+    //     }
+    //     throw new Exception("Veiculo nao encontrado.");
+    // }
+
+    public Veiculo localizadorVeiculo(String placa)throws Exception {
+        try {
+            boolean achou = false;
+            int aux = 0;
+            for (int i = 0; i < tamanhoFrota-1 && achou == false; i++) {
+                if (Veiculos[i].getPlaca().equals(placa)) {
+                    achou = true;
+                    aux = i;
+                    //return Veiculos[i]; // Retorna o veículo quando a placa é encontrada
+                }
             }
-        }
+            
+            if(achou){
+                return Veiculos[aux];
+            }
+            else{
+                throw new Exception("NAO ACHOU");
+                
+            }
 
-        return null; // Retorna null se a placa não for encontrada na frota
+        } catch (Exception e) {
+            // Lidar com a exceção aqui (ou rethrow, se necessário)
+            System.err.println("Erro: " + e.getMessage());
+            e.printStackTrace();
+            return null; // Ou outra ação apropriada para indicar que o veículo não foi encontrado
+        }
     }
 
     //#region
@@ -68,7 +95,7 @@ public class Frota {
         double quilometragemtotal = 0;
         for(int i = 0; i < tamanhoFrota; i ++)
         {
-            quilometragemtotal = quilometragemtotal + Veiculos[i].KmTotal();
+            quilometragemtotal = quilometragemtotal + Veiculos[i].getKmtotal();
         }
         return quilometragemtotal;
     }
@@ -85,7 +112,7 @@ public class Frota {
 
         for(int i = 1; i < tamanhoFrota; i ++)
         {
-            if(maior.KmTotal() < Veiculos[i].KmTotal())
+            if(maior.getKmtotal() < Veiculos[i].getKmtotal())
             {
                 maior = Veiculos[i];
             }
@@ -107,11 +134,19 @@ public class Frota {
 
         for(int i = 1; i < tamanhoFrota; i ++)
         {
-            if((Mediamaior.KmTotal() / Mediamaior.getQuantRotas()) < (Veiculos[i].KmTotal() / Veiculos[i].getQuantRotas()))
+            if((Mediamaior.getKmtotal() / Mediamaior.getQuantRotas()) < (Veiculos[i].getKmtotal() / Veiculos[i].getQuantRotas()))
             {
                 Mediamaior = Veiculos[i];
             }
         }
         return Mediamaior;
+    }
+
+    public String relatRotasVeiculos() {
+        StringBuilder relat = new StringBuilder("Relatórios dos carros:\n");
+        for(Veiculo veiculo : Veiculos) {
+            relat.append(veiculo.relatorioRotas() + "\n");
+        }
+        return relat.toString();
     }
 }

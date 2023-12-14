@@ -1,39 +1,32 @@
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Month;
 
 public class Rota {
     // Atributos privados para garantir o encapsulamento
-    private Date data;
+    private LocalDate data;
     private double quilometragem;
 
     // Construtor para inicializar os atributos da classe
-    public Rota(Date data, double quilometragem) {
+    public Rota(LocalDate data, double quilometragem) {
         this.data = data;
         this.quilometragem = quilometragem;
     }
 
-    // Método getter para acessar a data da rota
-    public Date getData() {
+	// Método getter para acessar a data da rota
+    public LocalDate getData() {
         return data;
     }
 
-    public int getMonth() {
+    public Month getMonth() {
         return this.data.getMonth();
     }
 
-    // Método setter para modificar a data da rota
-    public void setData(Date data) {
-        this.data = data;
-    }
 
     // Método getter para acessar a quilometragem da rota
     public double getQuilometragem() {
         return quilometragem;
     }
 
-    // Método setter para modificar a quilometragem da rota
-    public void setQuilometragem(double quilometragem) {
-        this.quilometragem = quilometragem;
-    }
 
 
     // Método para gerar um relatório detalhado da rota

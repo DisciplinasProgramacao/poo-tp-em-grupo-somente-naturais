@@ -1,121 +1,105 @@
-import java.util.Date;
+import java.time.LocalDate;
 
-public class Veiculo {
 
-    private ItipoVeiculo TipoVeiculo;
-    private final  int MAX_ROTAS = 3;
-    private final  double CONSUMO = 1.5;
-    private String placa;
-    private Rota[] rotas = new Rota[MAX_ROTAS];
-    private int quantRotas = 0;
-    private double tanqueAtual;
-    private double tanqueMax;
-    private double totalReabastecido;
+public abstract class Veiculo implements ItipoVeiculo {
+    protected final  int MAX_ROTAS = 30;
+    protected String placa;
+    protected Rota[] rotas = new Rota[MAX_ROTAS];
+    protected int quantRotas = 0;
+    protected Tanque tanque;
+    protected double totalReabastecido;
+    protected double KmTotal;
+    private static double ValorManutencao = 700.00;
+    private static double ValorTrocaPeca = 630.00;
+    private int contPeriodica = 0;
+    private int contTrocaPeca = 0;
+    
     /**
      * Construtor da classe Veiculo.
      * @param placa A placa do veículo.
      * @param tanqueMax A capacidade máxima do tanque do veículo.
      */
-    public Veiculo (String placa, int tanqueMax){
+    protected Veiculo (String placa, Tanque tanque){
         this.placa = placa;
-        this.tanqueMax = tanqueMax;
+        this.tanque = tanque;
+        totalReabastecido = 0;
         //Rota[] rotas = new Rota[MAX_ROTAS];
     }
     /**
      * Adiciona uma rota ao veículo, desde que haja espaço.
      * @param rota A rota a ser adicionada.
      */
-    public void addRota(Rota rota) {
+    protected void addRota(Rota rota) throws Exception{
         if(quantRotas< MAX_ROTAS) {
-            if(autonomiaAtual() > rota.getQuilometragem()){
+            if(tanque.autonomiaAtual() > rota.getQuilometragem()){
                 rotas[quantRotas] = rota;
                 quantRotas++;
                 percorrerRota(rota);
-                System.out.println("Rota cumprida com tanque atual.");
-            } else if (autonomiaMaxima() > rota.getQuilometragem()) {
+            } else if (tanque.autonomiaMaxima() > rota.getQuilometragem()) {
                 rotas[quantRotas] = rota;
                 quantRotas++;
-                System.out.println("Possivel cumprir rota após abastecimento.");
             } else {
-                System.out.println("Não é possível cumprir rota, falta autonomia.");
+                throw new Exception("Não é possível cumprir rota, falta autonomia.");
             }
         } else {
-            System.out.println("Máximo de rotas percorridas alcançado.");
+            throw new Exception("Máximo de rotas percorridas alcançado.");
         }
     }
-    /**
-     * Calcula a autonomia máxima do veículo com o tanque atual.
-     * @return A autonomia máxima em quilômetros.
-     */
-    private double autonomiaMaxima(){
-        double autonomiamax = 0;
-        autonomiamax = CONSUMO * tanqueMax;
-        return autonomiamax;
-    }
-    /**
-     * Calcula a autonomia atual do veículo com o tanque atual.
-     * @return A autonomia atual em quilômetros.
-     */
-    private double autonomiaAtual(){
-        double autonomiamax = 0;
-        autonomiamax = CONSUMO * tanqueAtual;
-        return autonomiamax;
-    }
+    
     /**
      * Realiza o abastecimento do veículo com a quantidade especificada, respeitando a capacidade máxima do tanque.
      * @param litros A quantidade de litros a ser abastecida.
      * @return A quantidade de litros que não couberam no tanque.
      */
-    public double abastecer(double litros) {
-        double resto = 0;
-        if(tanqueAtual + litros > tanqueMax) {
-            resto = tanqueAtual + litros - tanqueMax;
-            tanqueAtual = tanqueMax;
-            totalReabastecido += litros;
-            return resto;
+    protected double abastecer(double litros) throws Exception{
+        if(litros>0){
+            return tanque.abastecer(litros); 
         }
-        else {
-            tanqueAtual = tanqueAtual + litros;
-            totalReabastecido += litros;
-            return resto;
+        else{
+            throw new Exception("ta errado isso ai");
         }
+        
     }
+
     /**
      * Calcula a quilometragem percorrida no mês atual com base nas rotas registradas.
      * @return A quilometragem total percorrida no mês.
      */
-    public double KmnoMes() {
-        java.util.Date date = new java.util.Date();
+    protected double KmnoMes() {
+        LocalDate date = LocalDate.now();
         double kmMes = 0;
-        for (int i = 0; i < quantRotas; i++) {
+        for (int i = 0; i < quantRotas; i++) 
+        {
             if(rotas[i].getMonth() == date.getMonth()) {
                 kmMes += rotas[i].getQuilometragem();
             }
         }
         return kmMes;
+    }
 
+    protected double getKmtotal(){
+        return KmTotal;
     }
-    /**
-     * Calcula a quilometragem total percorrida com base nas rotas registradas.
-     * @return A quilometragem total percorrida.
-     */
-    public double KmTotal() {
-        double kmTotal = 0;
-        for (int i = 0; i < quantRotas; i++) {
-            kmTotal = rotas[i].getQuilometragem();
-        }
-        return kmTotal;
-    }
+
     /**
      * Percorre uma rota, deduzindo a quilometragem do tanque atual se houver autonomia suficiente.
      * @param rota A rota a ser percorrida.
      */
-    public void percorrerRota(Rota rota) {
-        if(autonomiaAtual()>rota.getQuilometragem()) {
-            tanqueAtual -= rota.getQuilometragem()*CONSUMO;
+    protected void percorrerRota(Rota rota) {
+        if(tanque.autonomiaAtual()>rota.getQuilometragem()) {
+            //tanque.setCapacidadeAtual(rota.getQuilometragem() * tanque.getConsumo());
+            KmTotal = KmTotal + rota.getQuilometragem();
         }
     }
 
+
+    @Override
+	public abstract boolean manutencaoTrocaPecas();
+
+    @Override
+    public abstract boolean manutencaoPeriodica();
+
+     
     //Método somente para teste
     public String getPlaca() {
         return placa;
@@ -128,5 +112,28 @@ public class Veiculo {
     public int getQuantRotas() {
         return quantRotas;
     }
+
+    protected String relatorioRotas() {
+        StringBuilder relat = new StringBuilder("Rotas do Veiculo: " + placa + "\n");
+        for(Rota rota : rotas) {
+            relat.append(rota.Relatorio() + "\n");
+        }
+        return relat.toString();
+    }
+
+    protected double calcDespesaCombustivel() {
+        double despesa = 0;
+        despesa = (KmTotal / tanque.getConsumo()) * tanque.getValorConsumo();
+        return despesa;
+    }
+    protected double calcDespesaManutencao() {
+        double despesa = 0;
+        if(manutencaoPeriodica()){
+            despesa = 5999;
+        }
+        return despesa;
+    }
+
+    protected  abstract String relatorio();
    
 }
