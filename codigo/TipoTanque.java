@@ -21,7 +21,11 @@ public enum TipoTanque {
     {
         this.capacidademaxima = capacidademaxima;
     }
-
+    /**
+     * Obtém a capacidade máxima do tanque para o tipo específico.
+     *
+     * @return A capacidade máxima do tanque.
+     */
     public int getCapacidade(){
         return capacidademaxima;
     }

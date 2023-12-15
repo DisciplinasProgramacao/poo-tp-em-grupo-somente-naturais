@@ -1,45 +1,26 @@
 public class Carro extends Veiculo {
-    private int trocaPecaKM = 10000; //Static para as variáveis, contar as manutenções
-    private int manutencaoKM = 10000;
     private String descricao = "Carro";
 
     public Carro(String placa) {
-        super(placa , new Tanque(TipoTanque.CARRO, ITipoCombustivel.ALCOOL));
+        super(placa, new Tanque(TipoTanque.CARRO, ITipoCombustivel.ALCOOL), 10000, 10000);
     }
 
-    @Override
-    public boolean manutencaoPeriodica() { //contador com a kilometragem total, sen
-        if(getKmtotal() >= manutencaoKM)
-        {
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-    @Override
-    public boolean manutencaoTrocaPecas() {
-        if(getKmtotal() >= trocaPecaKM)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
    
+    /**
+     * Relatorio do veiculo com todas as suas informações principais.
+     * 
+     * @return Uma String com os principais atributos do veiculo
+     */
     @Override
     public String relatorio() {
-        StringBuilder relatVeiculo = new StringBuilder("Placa: " + placa + "\n");
-        relatVeiculo.append("Tipo de veiculo: " + descricao + "\n");
-        relatVeiculo.append("Quantidade de rotas: " + quantRotas + "\n");
-        relatVeiculo.append("Km total: " + String.format("%,.2f\n", KmTotal));
-        relatVeiculo.append("Combustivel Disponivel no tanque: " + tanque.getCapacidadeAtual());
+        StringBuilder relatVeiculo = new StringBuilder(String.format("Placa: %s\n", placa));
+        relatVeiculo.append(String.format("Tipo de veiculo: %s\n",descricao));
+        relatVeiculo.append(String.format("Quantidade de rotas: %d\n", quantRotas));
+        relatVeiculo.append(String.format("Km total: %.2f\n", KmTotal));
+        relatVeiculo.append(String.format("Quantidade de manutenções periódicas: %d\n", contPeriodica));
+        relatVeiculo.append(String.format("Quantidade de manutenções para troca de peças: %d\n", contTrocaPeca));
+
         return relatVeiculo.toString();
     }
-
-    
 
 }

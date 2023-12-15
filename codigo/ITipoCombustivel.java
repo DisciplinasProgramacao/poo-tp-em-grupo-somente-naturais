@@ -24,13 +24,18 @@ public enum ITipoCombustivel {
 
     }
 
-    /*
-     * método get para pegar os valores de alcool, gasolina e diesel
+    /**
+     * método get para pegar o consumo médio
+     * @return Consumo_medio
      */
     public double getConsumoMedio(){
         return Consumo_medio;
     }
 
+/**
+     * método get para pegar os valores de alcool, gasolina e diesel
+     * @return Consumo_medio
+     */
     public double getValor(){
         return valor;
     }

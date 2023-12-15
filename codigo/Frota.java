@@ -2,11 +2,9 @@ public class Frota {
     private int tamanhoFrota;
     private Veiculo Veiculos[];
 
-    //#region Método constutor
     /**
      *  Método constutor no qual o tamanhoFrota determina o tamanho de vetor para os dados dos veículos
      */
-    //#endregion
     public Frota(Veiculo[] veiculos)
     {
         this.Veiculos = veiculos;
@@ -16,13 +14,11 @@ public class Frota {
 
     //#region
     /**
-     * Método para exibir o relatório da forta co seus kilomêtros rodados
-     * tanto no mês quanto no total
+     * Método para exibir o relatório da frota com seus quilômetros rodados
      * @return relatorioFrota
      */
     //#endregion
-
-     public String relatorioFrota () throws Exception
+     public String relatorioFrota () 
      {
         StringBuilder relatorioFrota = new StringBuilder();
 
@@ -30,72 +26,52 @@ public class Frota {
 
         for(int i = 0; i < tamanhoFrota; i ++)
         {
-           relatorioFrota.append("Kilometragem no mês "+ Veiculos[i].relatorio() + "\n");
-            //relatorioFrota.append("Kilometragem no ano " + Veiculos[i].getKmtotal() + "\n");
-       }
-
-      return relatorioFrota.toString();
+            if(Veiculos[i] == null) {
+                break;
+            } else {
+                relatorioFrota.append(Veiculos[i].relatorio() + "\n");
+            }
+        }
+        return relatorioFrota.toString();
      }
 
-    //#region
-    /*
+    /**
      * Método para localizar um Veiculo na frota pela sua placa
-     * e retornar o veículo desejado
+     * e retornar o veículo desejado, caso o veículo não seja encontrado, retorna um objeto do tipo veículo nulo
+     *
      * @param placa
-     * @return Veiculos[i]
+     * @return veiculo
      */
-    //  public Veiculo localizadorVeiculo(String placa) throws Exception {
-
-    //    for (int i = 0; i < tamanhoFrota; i++) {
-    //        if (Veiculos[i].getPlaca().equals(placa)) {
-    //             return Veiculos[i]; // Retorna o veículo quando a placa é encontrada
-    //        }
-    //     }
-    //     throw new Exception("Veiculo nao encontrado.");
-    // }
-
-    public Veiculo localizadorVeiculo(String placa)throws Exception {
-        try {
-            boolean achou = false;
-            int aux = 0;
-            for (int i = 0; i < tamanhoFrota-1 && achou == false; i++) {
-                if (Veiculos[i].getPlaca().equals(placa)) {
-                    achou = true;
-                    aux = i;
-                    //return Veiculos[i]; // Retorna o veículo quando a placa é encontrada
-                }
+    public Veiculo localizadorVeiculo(String placa) 
+    {   
+        Veiculo veiculo = null;
+        for (int i = 0; i < tamanhoFrota && Veiculos[i] != null; i++) 
+        {
+            if (Veiculos[i].getPlaca().equals(placa)) 
+            {
+                return veiculo = Veiculos[i];
             }
-            
-            if(achou){
-                return Veiculos[aux];
-            }
-            else{
-                throw new Exception("NAO ACHOU");
-                
-            }
-
-        } catch (Exception e) {
-            // Lidar com a exceção aqui (ou rethrow, se necessário)
-            System.err.println("Erro: " + e.getMessage());
-            e.printStackTrace();
-            return null; // Ou outra ação apropriada para indicar que o veículo não foi encontrado
         }
+
+        return veiculo;
     }
 
-    //#region
-    /*
+    
+    /**
      * Método para calcular a quilometragem total de todos os
      * veículos da Frota da empresa
      * @return quilometragemtotal
      */
-    //#endregion
-
-    public double quilometragemtotal()
+    protected double quilometragemtotal()
     {
         double quilometragemtotal = 0;
         for(int i = 0; i < tamanhoFrota; i ++)
         {
-            quilometragemtotal = quilometragemtotal + Veiculos[i].getKmtotal();
+            if (Veiculos[i] == null) {
+                break;
+            } else {
+                quilometragemtotal = quilometragemtotal + Veiculos[i].getKmtotal();
+            }
         }
         return quilometragemtotal;
     }
@@ -112,40 +88,55 @@ public class Frota {
 
         for(int i = 1; i < tamanhoFrota; i ++)
         {
-            if(maior.getKmtotal() < Veiculos[i].getKmtotal())
-            {
-                maior = Veiculos[i];
+            if (Veiculos[i] == null) {
+                break;
+            } else {
+                if(maior.getKmtotal() < Veiculos[i].getKmtotal())
+                {
+                    maior = Veiculos[i];
+                }
             }
         }
-
         return maior;
     }
 
-    //#region
-    /*
+    
+    /**
      * Método para procurar a maior quilometragem média
      * de um veículo que está na frota
      * @return Mediamaior
      */
-    //#endregion
     public Veiculo maiorkmMedia()
     {
         Veiculo Mediamaior = Veiculos[0];
 
         for(int i = 1; i < tamanhoFrota; i ++)
         {
-            if((Mediamaior.getKmtotal() / Mediamaior.getQuantRotas()) < (Veiculos[i].getKmtotal() / Veiculos[i].getQuantRotas()))
-            {
-                Mediamaior = Veiculos[i];
+            if (Veiculos[i] == null) {
+                break;
+            } else {
+                if((Mediamaior.getKmtotal() / Mediamaior.getQuantRotas()) < (Veiculos[i].getKmtotal() / Veiculos[i].getQuantRotas()))
+                {
+                    Mediamaior = Veiculos[i];
+                }
             }
         }
         return Mediamaior;
     }
 
+    /**
+     * Método para retornar o relatório de rotas
+     * de um veículo que está na frota
+     * @return relat
+     */ 
     public String relatRotasVeiculos() {
-        StringBuilder relat = new StringBuilder("Relatórios dos carros:\n");
+        StringBuilder relat = new StringBuilder("Relatórios dos veiculos:\n");
         for(Veiculo veiculo : Veiculos) {
-            relat.append(veiculo.relatorioRotas() + "\n");
+            if (veiculo == null) {
+                break;
+            } else {
+                relat.append(veiculo.relatorioRotas() + "\n");
+            }
         }
         return relat.toString();
     }
